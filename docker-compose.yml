@@ -1,0 +1,33 @@
+version: '3.4'
+
+x-template: &flyway-template
+  image: boxfuse/flyway:latest
+  volumes:
+    - ./sql:/flyway/sql
+    - ./conf:/flyway/conf
+  depends_on:
+    - db
+
+services:
+  flyway-clean:
+    <<: *flyway-template
+    command: clean
+
+  flyway-migrate:
+    <<: *flyway-template
+    command: migrate
+
+  flyway-info:
+    <<: *flyway-template
+    command: info
+
+  db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+    ports:
+      - 5432:5432
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d
+    container_name: db
