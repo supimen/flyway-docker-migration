@@ -24,3 +24,5 @@ docker-compose run --rm flyway-migrate
 ```
 docker-compose run --rm flyway-info
 ```
+
+test
